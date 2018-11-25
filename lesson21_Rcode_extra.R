@@ -133,6 +133,18 @@ rm2 <- aov(value~(factor(time)*factor(treat))+
            data = h1long_bl1)
 summary(rm2)
 
+# skip - ignore for now
+h1long_bl1$time <- as.factor(h1long_bl1$time)
+h1long_bl1$treat <- as.factor(h1long_bl1$treat)
+h1long_bl1$rowid <- as.factor(h1long_bl1$rowid)
+dim(h1long_bl1)[1]
+a <- rep(1, dim(h1long_bl1)[1])
+h1long_bl1$timea <- as.factor(as.numeric(h1long_bl1$time))
+
+rm2a <- aov(value ~ treat * timea + Error(rowid), 
+            data = h1long_bl1)
+summary(rm2a)
+
 # we can make a plot of
 # pcs and pcs1 scores by group
 # to get an idea of trend across time
@@ -146,6 +158,9 @@ ggplot(h1long_bl1, aes(x=factor(time), y=value)) +
   facet_wrap(~treat) +
   ggtitle("Usual Care = 0; HELP Clinic = 1")
 
+
+
+
 # from the cookbook for R
 ## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
 ##   data: a data frame.
@@ -153,8 +168,7 @@ ggplot(h1long_bl1, aes(x=factor(time), y=value)) +
 ##   groupvars: a vector containing names of columns that contain grouping variables
 ##   na.rm: a boolean that indicates whether to ignore NA's
 ##   conf.interval: the percent range of the confidence interval (default is 95%)
-summarySE <- function(data=NULL, measurevar, 
-                      groupvars=NULL, na.rm=FALSE,
+summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
                       conf.interval=.95, .drop=TRUE) {
   library(plyr)
   
