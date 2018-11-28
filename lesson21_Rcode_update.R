@@ -1,7 +1,7 @@
 # ==================================
 # N736 Lesson 21 - dependent/paired data
 #
-# dated 11/8/2017
+# dated 11/27/2018
 # Melinda Higgins, PhD
 # 
 # ==================================
