@@ -148,18 +148,18 @@ summary(rm2)
 # METHOD 3 - using ezANOVA from ez package
 library(ez)
 rm3 <- ez::ezANOVA(data = h12c_long,
-                  dv = pcs,
-                  wid = rowid,
-                  within = time,
-                  detailed = TRUE,
-                  type = 3)
+                   dv = pcs,
+                   wid = rowid,
+                   within = time,
+                   detailed = TRUE,
+                   type = 3)
 rm3
 summary(rm3)
 
 # compare the 2 changes from BL to 6m
 # for pcs and pcs1 between the 2 treat groups
-bartlett.test(h1$diff_pcs_bl_1~h1$treat)
-t.test(h1$diff_pcs_bl_1~h1$treat, var.equal=TRUE)
+bartlett.test(h1$diff_pcs_bl_1 ~ h1$treat)
+t.test(h1$diff_pcs_bl_1 ~ h1$treat, var.equal=TRUE)
 
 # now let's run a RM-ANOVA
 # for the changes from BL to 6m
@@ -167,8 +167,12 @@ t.test(h1$diff_pcs_bl_1~h1$treat, var.equal=TRUE)
 # compare the time*treat effect to
 # the t-test above for the difference scores
 # look at the 2nd part of the table
+# terms in the model, 2 main effects, 1 interaction effect
+# - time (within)
+# - treat (between)
+# - time-by-treat (within-by-between)
 
-rm4 <- aov(pcs ~ time * treat + Error(rowid/treat), 
+rm4 <- aov(pcs ~ time * treat + Error(rowid/time), 
            data = h12c_long)
 summary(rm4)
 
@@ -221,7 +225,7 @@ h12345c <- h12345c %>%
          treat)
 
 # restructure the data from WIDE to LONG format
-# there should now be 492 rows = 246 subjects * 2 times
+# there should now be 490 rows = 98 subjects * 5 times
 h12345c_long <- h12345c %>%
   gather(key=pcslabel,
          value=pcs,
@@ -261,7 +265,7 @@ rm6 <- ez::ezANOVA(data = h12345c_long,
                    detailed = TRUE,
                    type = 3)
 rm6
-summary(rm6)
+# summary(rm6)
 
 # another plot approach
 with(h12345c_long, 
